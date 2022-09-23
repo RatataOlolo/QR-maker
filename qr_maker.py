@@ -129,22 +129,23 @@ class Ui_MainWindow(object):
     def svg(self):
         self.link = self.insert_link_field.text()
         if self.link:
-            fileName, _ = QtWidgets.QFileDialog.getSaveFileName(self.StartWindow, "Change path to save your file", 'qr',
-                                                                "*.svg")
-            path.append(fileName)
-            factory = qrcode.image.svg.SvgPathImage
-            img = qrcode.make(self.link, image_factory=factory)
-            img.save(fileName)
-            if fileName:
-                self.ReadyWindow = QtWidgets.QMainWindow()
-                self.ready_ui = Ui_ReadyWindow()
-                self.ready_ui.setupUi(self.ReadyWindow)
-                self.StartWindow.close()
-                self.ReadyWindow.show()
-            else:
-                QtWidgets.QMessageBox.critical(self.StartWindow, "Error", "Incorrect data!")
-        else:
-            QtWidgets.QMessageBox.critical(self.StartWindow, "Error", "Insert yout link!")
+            try:
+                fileName, _ = QtWidgets.QFileDialog.getSaveFileName(self.StartWindow, "Change path to save your file", 'qr',
+                                                                    "*.svg")
+                path.append(fileName)
+                factory = qrcode.image.svg.SvgPathImage
+                img = qrcode.make(self.link, image_factory=factory)
+                img.save(fileName)
+                if fileName:
+                    self.ReadyWindow = QtWidgets.QMainWindow()
+                    self.ready_ui = Ui_ReadyWindow()
+                    self.ready_ui.setupUi(self.ReadyWindow)
+                    self.StartWindow.close()
+                    self.ReadyWindow.show()
+            except:
+                QtWidgets.QMessageBox.critical(self.StartWindow, "Error", "Insert yout link!")
+
+
 
     def png(self):
         self.link = self.insert_link_field.text()
@@ -160,7 +161,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "QR-maker"))
         self.logo.setText(_translate("MainWindow", "QR-maker"))
         self.pushButtonPng.setText(_translate("MainWindow", "PNG"))
         self.select_label.setText(_translate("MainWindow", "Select format:"))
@@ -723,7 +724,7 @@ class Ui_PNG(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Select parameters"))
         self.logo.setText(_translate("MainWindow", "QR-maker"))
         self.bg_color_label.setText(_translate("MainWindow", "Insert background\n"
                                                              "color in RGB-format\':"))
@@ -860,7 +861,7 @@ class Ui_ReadyWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Ready"))
         self.logo.setText(_translate("MainWindow", "QR-maker"))
         self.createButton.setText(_translate("MainWindow", "To start window"))
         self.description.setText(
